@@ -112,7 +112,7 @@
             <h1>{{product.product_Name}}</h1>
             <p class="lead">{{product.product_desc}}</p>
             <p class="lead">{{product.product_price}}</p>
-            <p class="lead">{{product.product_creation_time|date:"Ymd"}}</p>
+            <p class="lead">Publish Date: {{product.product_creation_time|date:"d-m-Y"}}</p>
         </div>
 
         {% endfor %}
