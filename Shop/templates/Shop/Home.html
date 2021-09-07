@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>QTech_Lex_Test</title>
+</head>
+<style>
+    body {
+        background-color: #E6E6FA;
+    }
+</style>
+
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand " style="margin-left: 105px;" href="{% url 'SearchHistry'%}">Home</a>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <form class="d-flex" action="{% url 'ShopHome' %}">
+                        <input class="form-control me-2" id="Search" name="Search" value="{{ Search }}" type="Search"
+                            placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                    <!-- Example single danger button -->
+                    <div class="mx-2 btn-group">
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Filter
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" onclick="FilterToday()" href="#"><input type="radio"
+                                        class="btn-check" name="btnradio1" id="btnradio1" autocomplete="off" checked>
+                                    <label class="btn btn-outline-primary" for="btnradio1">Today</label></a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" onclick="FilterYesterday()" href="#"><input type="radio"
+                                        class="btn-check" name="btnradio2" id="btnradio2" autocomplete="off" checked>
+                                    <label class="btn btn-outline-primary" for="btnradio2">Yesterday</label></a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" onclick="FilterLastMonth()" href="#"><input type="radio"
+                                        class="btn-check" name="btnradio3" id="btnradio3" autocomplete="off" checked>
+                                    <label class="btn btn-outline-primary" for="btnradio3">Last Month</label></a>
+                            </li>
+
+
+                            <li>
+                                <hr class="dropdown-divider">
+                                <p class="mx-3">Starting Date</p>
+                                <input class="mx-3" style="width: 130px" type="date" id="StartingDate"
+                                    data-date-format="DD MMMM YYYY" name="StartingDate">
+
+                                <p class="mx-3">Ending Date</p>
+                                <input class="mx-3" style="width: 130px" type="date" id="EndingDate" name="EndingDate">
+                                <button class="mx-3 my-2 btn-sm btn btn-success" type="submit"
+                                    onclick="DateFilter()">Submit</button>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                        </ul>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" style="margin-left: 800px!important;" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
+                            History
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Search History</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                       {% for History in SHistory %}
+                                        "{{History}}" search at {{History.SearchTime}} <br>
+                                        <hr>
+                                       {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+            </div>
+        </div>
+    </nav>
+
+    <main class="container " id="Products">
+        <div class="bg-light rounded">
+            <h5 class="mx-5">{{SearchResults|length}} Items found on your search</h5>
+        </div>
+        <script>i = 0;
+            var Item = {};
+        </script>
+        {% for product in SearchResults %}
+        <div class="bg-light p-5 rounded my-2">
+            <h1>{{product.product_Name}}</h1>
+            <p class="lead">{{product.product_desc}}</p>
+            <p class="lead">{{product.product_price}}</p>
+            <p class="lead">{{product.product_creation_time|date:"Ymd"}}</p>
+        </div>
+
+        {% endfor %}
+    </main>
+    <script src="/docs/5.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+
+<script>
+    //Date(Today) checking part
+    function FilterToday() {
+        var FilteredHTML = '';
+        {% for product in SearchResults %}
+        var FilterToday = '{{product.product_creation_time|date:"SHORT_DATE_FORMAT"}}';
+        var JStoday = new Date()
+        JStoday = String(JStoday.getMonth() + 1).padStart(2, '0') + '/' + String(JStoday.getDate()).padStart(2, '0') + '/' + JStoday.getFullYear();
+        if (JStoday == FilterToday) {
+            FilteredHTML = FilteredHTML + '<div class="bg-light p-5 rounded my-3">\
+            <h1>{{product.product_Name}}</h1>\
+            <p class="lead">{{product.product_desc}}</p>\
+            <p class="lead">{{product.product_price}}</p>\
+            </div>';
+
+        }
+        {% endfor %}
+        if (FilteredHTML == '') {
+            document.getElementById('Products').innerHTML = "<h3>No Result found At This Date!!!</h3>";
+        }
+        else {
+            document.getElementById('Products').innerHTML = FilteredHTML;
+
+        }
+    }
+    //Date(yesterday) chcking part
+    function FilterYesterday() {
+        var FilteredHTML = '';
+        {% for product in SearchResults %}
+        var FilterYesterday = '{{product.product_creation_time|date:"SHORT_DATE_FORMAT"}}';
+        var JSYesterday = new Date()
+        JSYesterday = String(JSYesterday.getMonth() + 1).padStart(2, '0') + '/' + String(JSYesterday.getDate() - 1).padStart(2, '0') + '/' + JSYesterday.getFullYear();
+        if (JSYesterday == FilterYesterday) {
+            FilteredHTML = FilteredHTML + '<div class="bg-light p-5 rounded my-3">\
+                <h1>{{product.product_Name}}</h1>\
+                <p class="lead">{{product.product_desc}}</p>\
+                <p class="lead">{{product.product_price}}</p>\
+                </div>';
+        }
+        {% endfor %}
+        if (FilteredHTML == '') {
+            document.getElementById('Products').innerHTML = "<h3>No Result found At This Date!!!</h3>";
+        }
+        else {
+            document.getElementById('Products').innerHTML = FilteredHTML;
+        }
+    }
+    //date(Last month)
+    function FilterLastMonth() {
+        var FilteredHTML = '';
+        {% for product in SearchResults %}
+        var FilterLastMonth = '{{product.product_creation_time|date:"mY"}}';
+        var JSLastMonth = new Date()
+        JSLastMonth = String(JSLastMonth.getMonth()).padStart(2, '0') + JSLastMonth.getFullYear();
+        if (JSLastMonth == FilterLastMonth) {
+            FilteredHTML = FilteredHTML + '<div class="bg-light p-5 rounded my-3">\
+                <h1>{{product.product_Name}}</h1>\
+                <p class="lead">{{product.product_desc}}</p>\
+                <p class="lead">{{product.product_price}}</p>\
+                </div>';
+        }
+        {% endfor %}
+        if (FilteredHTML == '') {
+            document.getElementById('Products').innerHTML = "<h3>No Result found At This Date!!!</h3>";
+        }
+        else {
+            document.getElementById('Products').innerHTML = FilteredHTML;
+
+        }
+    }
+
+    function DateFilter() {
+        var FilteredHTML = '';
+        var StartingDate = new Date(document.getElementById('StartingDate').value);
+        StartingDate = parseInt(String(StartingDate.getFullYear()) + String(StartingDate.getMonth() + 1).padStart(2, '0') + String(StartingDate.getDate()).padStart(2, '0'));
+        var EndingDate = new Date(document.getElementById('EndingDate').value);
+        EndingDate = parseInt(String(EndingDate.getFullYear()) + String(EndingDate.getMonth() + 1).padStart(2, '0') + String(EndingDate.getDate()).padStart(2, '0'));
+        {% for product in SearchResults %}
+        var ProductDate = parseInt('{{product.product_creation_time|date:"Ymd"}}');
+        console.log(ProductDate);
+        if ((ProductDate >= StartingDate) && (ProductDate <= EndingDate)) {
+            FilteredHTML = FilteredHTML + '<div class="bg-light p-5 rounded my-3">\
+                <h1>{{product.product_Name}}</h1>\
+                <p class="lead">{{product.product_desc}}</p>\
+                <p class="lead">{{product.product_price}}</p>\
+                </div>';
+        }
+        {% endfor %}
+        if (FilteredHTML == '') {
+            document.getElementById('Products').innerHTML = "<h3>No Result found At This Date!!!</h3>";
+        }
+        else {
+            document.getElementById('Products').innerHTML = FilteredHTML;
+        }
+    }
+</script>
+
+</html>
