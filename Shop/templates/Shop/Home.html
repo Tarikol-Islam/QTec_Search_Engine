@@ -26,13 +26,13 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <form class="d-flex" action="{% url 'ShopHome' %}">
-                        <input class="form-control me-2" id="Search" name="Search" value="{{ Search }}" type="Search"
+                        <input class="form-control me-2" style="width: 350px!important;" id="Search" name="Search" value="{{ Search }}" type="Search"
                             placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                     <!-- Example single danger button -->
                     <div class="mx-2 btn-group">
-                        <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown"
+                        <button type="button"   class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Filter
                         </button>
@@ -69,7 +69,7 @@
 
                         </ul>
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" style="margin-left: 800px!important;" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-primary" style="margin-left: 450px!important; border-radius:5px" data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop">
                             History
                         </button>

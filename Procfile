@@ -1,0 +1,1 @@
+web: gunicorn QTec_Search_Engine.wsgi
