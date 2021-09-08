@@ -7,10 +7,10 @@ from .models import Product, SearchHistory
 
 def Home(request):
     if request.method == "GET":
-        SearchSTR = request.GET['Search']
-
         #Data Svaing for history of search
-        Data = SearchHistory(SearchContent = SearchSTR)
+        SearchSTR = request.GET['Search']
+        if SearchSTR == "":Data=SearchHistory(SearchContent= "Empty" )
+        else:Data = SearchHistory(SearchContent = SearchSTR)
         Data.save()
         #Data Fetching for seacrh History
         SHistory = SearchHistory.objects.all().order_by('-SearchTime')
@@ -22,4 +22,7 @@ def Home(request):
     return render(request, 'Shop/Home.html',Context)
 
 def SearchHistry(request):
-    return render(request,'Shop/Search.html')
+    if request.method == "GET":
+        Data = Product(product_Name=request.GET.get('Product_Name'), product_price=request.GET.get('Product_Price'), product_desc=request.GET.get('Product_Description'), product_Qty=request.GET.get('Product_Quntity'), product_creation_time=request.GET.get('Creation_Date'))
+        Data.save()
+        return render(request,'Shop/Search.html')

@@ -4,12 +4,12 @@ from django.db.models.fields import DateField
 
 class Product(models.Model):
     product_ID = models.AutoField(primary_key = True)
-    product_Name = models.CharField(max_length = 30)
-    product_price = models.FloatField(default = 0)
-    product_desc = models.CharField(max_length = 300)
+    product_Name = models.CharField(max_length = 30, null=True)
+    product_price = models.FloatField(default = 0, null=True)
+    product_desc = models.CharField(max_length = 300, null=True)
    # product_pic = models.ImageField(upload_to = 'media/', default = "")
-    product_Qty = models.IntegerField(default = 1 )
-    product_creation_time = models.DateField(null= False, auto_now_add = False)
+    product_Qty = models.IntegerField(default = 1, null=True )
+    product_creation_time = models.DateField(null= True, auto_now_add = False)
 
     def __str__(self):
         return self.product_Name
