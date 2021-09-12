@@ -26,7 +26,6 @@ def SearchHistry(request):
 
 def CreateData(request):
     if request.method == "GET":
-        print("Inner___________True")
         Data = Product(product_Name=request.GET.get('Product_Name'), product_price=request.GET.get('Product_Price'), product_desc=request.GET.get('Product_Description'), product_Qty=request.GET.get('Product_Quntity'), product_creation_time=request.GET.get('Creation_Date'))
         Data.save()
     return render(request, 'Shop/Search.html')

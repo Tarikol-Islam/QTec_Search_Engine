@@ -20,17 +20,17 @@
             style="height:50px;width: 800px; margin-left: auto; margin-right: auto; border-width: 2px; border-color:yellow;"
             type="search" placeholder="Search" aria-label="Search">
         <div class="text-center">
-            <button class="btn btn-outline-success " style="margin-top: -18px; margin-left: 45px;"
+            <button class="btn btn-outline-success " style="margin-top: -18px; margin-left: 0px;"
                 type="submit">Search</button>
         </div>
     </form>
-
-
+ 
+    
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="margin-top: -66px; margin-left: 575px;" data-bs-target="#exampleModal">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="margin-top: -66px; margin-left: 515px;" data-bs-target="#exampleModal">
         ADD
     </button>
-
+    <a href="{% url 'ProductAPI'%}"><button type="button" class="btn btn-primary"  style="margin-top: -66px; margin-left: 218px;" >API</button></a>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
